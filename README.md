@@ -2,6 +2,6 @@
 
 Mitk and c++ training code
 
-![Step 3 Render result](/Descargas/3DRender.png)
+![Step 3 Render result](https://github.com/RocioLO/comp-therapies/blob/master/images/3DRender.PNG)
 
 
