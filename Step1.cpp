@@ -32,15 +32,26 @@ int main(int argc, char* argv[])
   // The DataStorage manages all data objects. It is used by the
   // rendering mechanism to render all data objects
   // We use the standard implementation mitk::StandaloneDataStorage.
-  mitk::StandaloneDataStorage::Pointer ds = mitk::StandaloneDataStorage::New();
+  mitk::StandaloneDataStorage::Pointer datastorage = mitk::StandaloneDataStorage::New();
 
 
   //*************************************************************************
-  // Part II: Create some data by reading a file
+  // Part II: Create some data by reading files
   //*************************************************************************
 
+
+  int i;
+  for (i = 1; i< argc; ++i)
+  {
+	  //For testing
+	  if (strcmp(argv[i], "-testing") == 0)
+	    continue;
+	    
+  //*************************************************************************
+  //Part III: Put the data into the dataStorage (add the node to the DataStorage)
   // Load datanode (eg. many image formats, surface formats, etc.)
-  mitk::IOUtil::Load(argv[1],*ds);
+      mitk::IOUtil::Load(argv[i],*datastorage);
+  }
 
   //*************************************************************************
   // Part IV: Create window and pass the datastorage to it
@@ -50,17 +61,17 @@ int main(int argc, char* argv[])
   QmitkRenderWindow renderWindow;
 
   // Tell the RenderWindow which (part of) the datastorage to render
-  renderWindow.GetRenderer()->SetDataStorage(ds);
+  renderWindow.GetRenderer()->SetDataStorage(datastorage);
 
   // Initialize the RenderWindow
-  mitk::TimeGeometry::Pointer geo = ds->ComputeBoundingGeometry3D(ds->GetAll());
+  mitk::TimeGeometry::Pointer geo = datastorage->ComputeBoundingGeometry3D(datastorage->GetAll());
   mitk::RenderingManager::GetInstance()->InitializeViews( geo );
   //mitk::RenderingManager::GetInstance()->InitializeViews();
 
   // Select a slice
   mitk::SliceNavigationController::Pointer sliceNaviController = renderWindow.GetSliceNavigationController();
   if (sliceNaviController)
-    sliceNaviController->GetSlice()->SetPos( 0 );
+    sliceNaviController->GetSlice()->SetPos( 2 );
 
   //*************************************************************************
   // Part V: Qt-specific initialization
@@ -72,6 +83,6 @@ int main(int argc, char* argv[])
 
 
   // cleanup: Remove References to DataStorage. This will delete the object
-  ds = NULL;
+  datastorage = NULL;
 }
 
