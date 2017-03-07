@@ -15,3 +15,7 @@ Image result for Step 4: Axial and Sagittal views
 Image result for Step 5: Interactively added points
 
 ![Step 5 Points result](https://github.com/RocioLO/comp-therapies/blob/master/images/step5.png)
+
+Image result for Step 6: Interactive region-grower
+
+![Step 6 Points result](https://github.com/RocioLO/comp-therapies/blob/master/images/InteractiveRegionGrower.png)
