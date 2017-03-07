@@ -10,4 +10,8 @@ Image result for Step 3:
 
 Image result for Step 4: Axial and Sagittal views
 
-![Step 3 Views result](https://github.com/RocioLO/comp-therapies/blob/master/images/axialSagital.png)
+![Step 4 Views result](https://github.com/RocioLO/comp-therapies/blob/master/images/axialSagital.png)
+
+Image result for Step 5: Interactively added points
+
+![Step 5 Points result](https://github.com/RocioLO/comp-therapies/blob/master/images/step5.png)

@@ -2,10 +2,14 @@
 #include "QmitkRegisterClasses.h"
 #include "QmitkRenderWindow.h"
 #include "QmitkSliceWidget.h"
+
 #include "mitkNodePredicateDataType.h"
 #include "mitkProperties.h"
 #include "mitkRenderingManager.h"
 #include "mitkStandaloneDataStorage.h"
+
+#include "mitkPointSet.h"
+#include "mitkPointSetDataInteractor.h"
 
 #include <mitkIOUtil.h>
 #include <QApplication>
@@ -128,6 +132,7 @@ int main(int argc, char* argv[])
   //Create a 2D view for slicing axially (IVb)
   QmitkSliceWidget view2(&toplevelWidget);
   layout.addWidget(&view2);
+  
   view2.SetLevelWindowEnabled(true);
   view2.SetDataStorage(datastorage);
   
@@ -172,8 +177,29 @@ int main(int argc, char* argv[])
   // Select a slice
   //mitk::SliceNavigationController::Pointer sliceNaviController = renderWindow.GetSliceNavigationController();
  // if (sliceNaviController)
-    //sliceNaviController->GetSlice()->SetPos( 2 );
-   */
+    //sliceNaviController->GetSlice()->SetPos( 2 );*/
+   
+  //*************************************************************************
+  // Part IVb: Step 5 (Useful for last exercise)
+  //*************************************************************************
+  mitk::PointSet::Pointer pointSet = mitk::PointSet::New();
+  mitk::DataNode::Pointer pointSetNode = mitk::DataNode::New();
+  // Store the point set in the DataNode
+  pointSetNode->SetData(pointSet); 
+   
+  // Add the node to the tree
+  datastorage->Add(pointSetNode);
+  
+  // Create PointSetDataInteractor
+  mitk::PointSetDataInteractor::Pointer interactor = mitk::PointSetDataInteractor::New();
+  // Set the StateMachine pattern that describes the flow of the interactions
+  interactor->LoadStateMachine("PointSet.xml");
+  // Set the configuration file, which describes the user interactions that trigger actions
+  // in this file SHIFT + LeftClick triggers add Point, but by modifying this file,
+  // it could as well be changes to any other user interaction.
+  interactor->SetEventConfig("PointSetConfig.xml");
+  
+  interactor->SetDataNode(pointSetNode); // Assign the pointSetNode to the interactor,
   //*************************************************************************
   // Part V: Qt-specific initialization
   //*************************************************************************
@@ -181,10 +207,8 @@ int main(int argc, char* argv[])
   //enderWindow.resize( 256, 256 );
 
   toplevelWidget.show();
-  
-  //
-
   qtapplication.exec();
+  
   // cleanup: Remove References to DataStorage. This will delete the object
   datastorage = NULL;
 }
