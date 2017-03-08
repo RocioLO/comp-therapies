@@ -29,6 +29,9 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <vtkMarchingCubes.h>
 #include <vtkSTLWriter.h>
 
+#include <QmitkStdMultiWidget.h>
+		 
+
 //##Documentation
 //## @brief Start region-grower at interactively added points
 Step6::Step6(int argc, char *argv[], QWidget *parent) 
@@ -145,53 +148,31 @@ void Step6::SetupWidgets()
   // Create toplevel widget with vertical layout
   QVBoxLayout *vlayout = new QVBoxLayout(this);
   vlayout->setMargin(0);
-  vlayout->setSpacing(2);
+  //vlayout->setSpacing(2);
   // Create viewParent widget with horizontal layout
   QWidget *viewParent = new QWidget(this);
   vlayout->addWidget(viewParent);
   QHBoxLayout *hlayout = new QHBoxLayout(viewParent);
   hlayout->setMargin(0);
-  hlayout->setSpacing(2);
+  //hlayout->setSpacing(2);
   //*************************************************************************
-  // Part Ia: 3D view
+  // Step 8: Using QmitkStdMultiWidget creation and initialization
   //*************************************************************************
-  // Create a renderwindow
-  QmitkRenderWindow *renderWindow = new QmitkRenderWindow(viewParent);
-  hlayout->addWidget(renderWindow);
-  // Tell the renderwindow which (part of) the tree to render
-  renderWindow->GetRenderer()->SetDataStorage(m_DataStorage);
-  // Use it as a 3D view
-  renderWindow->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
-  // Reposition the camera to include all visible actors
-  renderWindow->GetRenderer()->GetVtkRenderer()->ResetCamera();
-  //*************************************************************************
-  // Part Ib: 2D view for slicing axially
-  //*************************************************************************
-  // Create QmitkSliceWidget, which is based on the class
-  // QmitkRenderWindow, but additionally provides sliders
-  QmitkSliceWidget *view2 = new QmitkSliceWidget(viewParent);
-  hlayout->addWidget(view2);
-  // Tell the QmitkSliceWidget which (part of) the tree to render.
-  // By default, it slices the data axially
-  view2->SetDataStorage(m_DataStorage);
-  mitk::DataStorage::SetOfObjects::ConstPointer rs = m_DataStorage->GetAll();
-  view2->SetData(rs->Begin(), mitk::SliceNavigationController::Axial);
-  // We want to see the position of the slice in 2D and the
-  // slice itself in 3D: add it to the tree!
-  m_DataStorage->Add(view2->GetRenderer()->GetCurrentWorldPlaneGeometryNode());
-  //*************************************************************************
-  // Part Ic: 2D view for slicing sagitally
-  //*************************************************************************
-  // Create QmitkSliceWidget, which is based on the class
-  // QmitkRenderWindow, but additionally provides sliders
-  QmitkSliceWidget *view3 = new QmitkSliceWidget(viewParent);
-  hlayout->addWidget(view3);
-  // Tell the QmitkSliceWidget which (part of) the tree to render
-  // and to slice sagitally
-  view3->SetDataStorage(m_DataStorage);
-  view3->SetData(rs->Begin(), mitk::SliceNavigationController::Sagittal);
-  // We want to see the position of the slice in 2D and the
-  // slice itself in 3D: add it to the tree!
-  m_DataStorage->Add(view3->GetRenderer()->GetCurrentWorldPlaneGeometryNode());
+  QmitkStdMultiWidget *multiWidget = new QmitkStdMultiWidget(viewParent);
+  hlayout->addWidget(multiWidget);
+  // Tell the multiWidget which DataStorage to render
+  multiWidget->SetDataStorage(m_DataStorage);
+  // Initialize views as axial, sagittal, coronar (from
+  // top-left to bottom)
+  mitk::TimeGeometry::Pointer geo = m_DataStorage->ComputeBoundingGeometry3D(m_DataStorage->GetAll());
+  mitk::RenderingManager::GetInstance()->InitializeViews(geo);
+  // Initialize bottom-right view as 3D view
+  multiWidget->GetRenderWindow4()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
+  // Enable standard handler for levelwindow-slider
+  multiWidget->EnableStandardLevelWindow();
+  // Add the displayed views to the DataStorage to see their positions in 2D and 3D
+  multiWidget->AddDisplayPlaneSubTree();
+  multiWidget->AddPlanesToDataStorage();
+  multiWidget->SetWidgetPlanesVisibility(true);
   
 }

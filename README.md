@@ -19,3 +19,7 @@ Image result for Step 5: Interactively added points
 Image result for Step 6: Interactive region-grower
 
 ![Step 6 Points result](https://github.com/RocioLO/comp-therapies/blob/master/images/InteractiveRegionGrower.png)
+
+Image result for Step 8: Using QmitkStdMultiWidget
+
+![Step 6 Points result](https://github.com/RocioLO/comp-therapies/blob/master/images/QmitkStdMultiWidget.png)
