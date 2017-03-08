@@ -25,6 +25,10 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include <vtkImageData.h>
+#include <vtkMarchingCubes.h>
+#include <vtkSTLWriter.h>
+
 //##Documentation
 //## @brief Start region-grower at interactively added points
 Step6::Step6(int argc, char *argv[], QWidget *parent) 
@@ -86,6 +90,25 @@ void Step6::StartRegionGrowing()
 {
   AccessByItk_1(m_FirstImage, RegionGrowing, this);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  
+  std::cout << "7";
+  if (m_ResultImage.IsNotNull())
+  {
+    m_ResultNode->SetProperty("volumerendering", mitk::BoolProperty::New(false));
+    vtkMarchingCubes *surfaceCreator = vtkMarchingCubes::New();
+    surfaceCreator->SetInputData(m_ResultImage->GetVtkImageData());
+    surfaceCreator->SetValue(0, 1);
+    surfaceCreator->Update();
+    mitk::Surface::Pointer surface = mitk::Surface::New();
+    surface->SetVtkPolyData(surfaceCreator->GetOutput()); // VTK6_TODO
+    mitk::DataNode::Pointer surfaceNode = mitk::DataNode::New();
+    surfaceNode->SetData(surface);
+    m_DataStorage->Add(surfaceNode);
+    mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+    std::cout << "8";
+    surfaceCreator->Delete();
+  }
+  std::cout << "9";
 }
 void Step6::Load(int argc, char *argv[])
 {
