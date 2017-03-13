@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>352</width>
-    <height>634</height>
+    <width>222</width>
+    <height>161</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,51 +26,17 @@
       <string notr="true">QLabel { color: rgb(255, 0, 0) }</string>
      </property>
      <property name="text">
-      <string>Please create two sets of points with 4 points each!</string>
+      <string>Please select an image!</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="buttonPointSet1">
+    <widget class="QPushButton" name="buttonPerformImageProcessing">
      <property name="toolTip">
       <string>Do image processing</string>
      </property>
      <property name="text">
-      <string>Create Point Set 1</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="buttonPointSet2">
-     <property name="toolTip">
-      <string/>
-     </property>
-     <property name="text">
-      <string>Create PointSet 2</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="registrationButton">
-     <property name="text">
-      <string>Registration between Sets</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Transformation Matrix:</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QTableWidget" name="tableWidget">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+      <string>Do Something</string>
      </property>
     </widget>
    </item>
@@ -89,20 +55,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>RMSE (mm): </string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
