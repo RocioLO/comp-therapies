@@ -23,6 +23,7 @@ namespace mitk {
 void org_mitk_points_registration_Activator::start(ctkPluginContext* context)
 {
   BERRY_REGISTER_EXTENSION_CLASS(MyPointsRegistration, context)
+  
 }
 
 void org_mitk_points_registration_Activator::stop(ctkPluginContext* context)

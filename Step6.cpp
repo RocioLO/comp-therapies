@@ -8,6 +8,7 @@ even the implied warranty of MERCHANTABILITY or FITNESS FOR
 A PARTICULAR PURPOSE.
 See LICENSE.txt or http://www.mitk.org for details.
 ===================================================================*/
+
 #include "Step6.h"
 #include "QmitkRenderWindow.h"
 #include "QmitkSliceWidget.h"
@@ -30,6 +31,9 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <vtkSTLWriter.h>
 
 #include <QmitkStdMultiWidget.h>
+//#include <Eigen/SVD>
+
+
 		 
 
 //##Documentation
